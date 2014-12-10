@@ -12,7 +12,12 @@ import java.util.Map;
 public class CassandraCqlStateFactory implements StateFactory {
     private static final long serialVersionUID = 1L;
     private static final Logger LOG = LoggerFactory.getLogger(CassandraCqlStateFactory.class);
-    public static String TRIDENT_CASSANDRA_CQL_HOSTS = "trident.cassandra.cql.hosts";
+    public static final String TRIDENT_CASSANDRA_CQL_HOSTS = "trident.cassandra.cql.hosts";
+    public static final String TRIDENT_CASSANDRA_CONSISTENCY = "trident.cassandra.consistency";
+    public static final String TRIDENT_CASSANDRA_SERIAL_CONSISTENCY = "trident.cassandra.serial.consistency";
+    public static final String TRIDENT_CASSANDRA_QUERY_TIMEOUT = "trident.cassandra.query.timeout";
+    public static final String TRIDENT_CASSANDRA_CLUSTER_NAME = "trident.cassandra.cluster.name";
+
     private static CqlClientFactory clientFactory;
 
     @Override

@@ -1,8 +1,13 @@
 package com.hmsonline.trident.cql;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
+import com.datastax.driver.core.PreparedStatement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -19,6 +24,8 @@ public class CassandraCqlState implements State {
     private CqlClientFactory clientFactory;
     private int maxBatchSize;
     List<Statement> statements = new ArrayList<Statement>();
+
+    private Map<String, PreparedStatement> preparedStatements = new HashMap<String, PreparedStatement>();
 
     public CassandraCqlState(CqlClientFactory clientFactory) {
         this.clientFactory = clientFactory;
@@ -55,6 +62,15 @@ public class CassandraCqlState implements State {
 
     public void addStatement(Statement statement) {
         this.statements.add(statement);
+    }
+
+    public PreparedStatement prepare(String statement) {
+        PreparedStatement prepared = preparedStatements.get(statement);
+        if (prepared == null) {
+            prepared = clientFactory.getSession().prepare(statement);
+            preparedStatements.put(statement, prepared);
+        }
+        return prepared;
     }
     
     public ResultSet execute(Statement statement){
